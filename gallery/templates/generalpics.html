@@ -1,0 +1,77 @@
+
+{%extends 'base.html'%}
+{%load bootstrap3}
+{% block content %}
+{{block.super}}
+  
+  <!-- Looping through news   -->
+ <div class="container-fluid">
+    <h1 class="text-center">General pictures in our gallery</h1>
+    {% for highlight_item in highlight %}
+    <div class="row">
+        <div class="col-md-">
+     <div class="col-xs-4 col-sm-4 col-md-6 col-lg-4">
+        <h2 class="text-center"> {{ highlight_item.image_name }} </h2>
+        <img data-toggle="modal" data-target="#{{highlight_item.id}}" style="width: 100%; height: 250px;" src="{{highlight_item.image.url}}" alt="" class="img-responsive">
+        <p class="text-center">{{highlight_item.description|slice:":100"}}.....</p> 
+
+          <!-- Button trigger modal -->
+            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{highlight_item.id}}">
+            Launch demo modal
+            </button> -->
+            <!-- Modal -->
+            <div class="modal fade" id="{{highlight_item.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content modalcard">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="imagetitle">{{highlight_item.image_name}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <img style="width: 80%; height: 300px;" src="{{highlight_item.image.url}}" alt="the image" >
+                            <p class="text-center"> {{highlight_item.description}}</p>
+                            <p class="text-center">Location: {{highlight_item.location}}</p>
+                            <p class="text-center">Category: {{highlight_item.category}}</p>
+                        </div>
+                        <div class="modal-footer">
+                        
+                            <input class="form-control input-lg" type="text"  value="{{highlight_item.image.url}}" id="{{highlight_item.id}}.url">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success " onclick="copyLink('{{highlight_item.id}}.url')">copy</button>
+    
+                        </div>
+                        {%block script%}
+                        <script>
+                                                         
+                         copyLink = (element) => {
+                         document.getElementById(element).select();
+                         document.execCommand("copy");
+                                                             }
+                         </script> 
+                         {%endblock%}
+                    </div>
+                </div>
+            
+
+     </div>
+
+
+    </div>
+
+    {%endfor%}
+
+   
+
+
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+
