@@ -1,0 +1,94 @@
+
+{%extends 'base.html'%}
+
+{% block content %}
+{{block.super}}
+
+<!-- Adding a search form  -->
+<div class="col-sm-4 col-md-4 navbar-center">
+
+    <form class="navbar-form" role="search" action="{% url 'picperlocation' %}">
+
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search by location" name="location">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <!-- search form end -->
+
+ {% if pic_per_location%}
+ <h2> Found {{ pic_per_location|length }} of location {{message}}</h2>
+ {% else %}
+ <h2 style="margin-top: 80px;">{{message}}  </h2>
+
+ {% endif %}
+
+ {%if pic_per_location%}
+  <!-- Looping through images   -->
+
+  {% for pic_item in pic_per_location %}
+
+  <div class="row" style="width: 100%;">
+   
+    <!-- displaying News articles -->
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+
+      <h2 class="text-center"> {{ pic_item.image_name }} </h2>
+      <img data-toggle="modal" data-target="#{{pic_item.id}}" style="width: 100%; height: 250px;" src="{{pic_item.image.url}}" alt="" class="img-responsive">
+      <h5 class="tect-center"> {{pic_item.description}}</h5>
+
+
+
+      <div class="modal fade" id="{{pic_item.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modalcard">
+                <div class="modal-header">
+                <h5 class="modal-title" id="imagetitle">{{pic_item.image_name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <img style="width: 80%; height: 300px;" src="{{pic_item.image.url}}" alt="the image" >
+                    <p class="text-center"> {{pic_item.description}}</p>
+                    <p class="text-center">Location: {{pic_item.location}}</p>
+                    <p class="text-center">Category: {{pic_item.category}}</p>
+                </div>
+                <div class="modal-footer">
+                
+                    <input class="form-control input-lg" type="text"  value="{{pic_item.image.url}}" id="{{pic_item.id}}.url">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success " onclick="copyLink('{{pic_item.id}}.url')">copy</button>
+
+                </div>
+                {%block script%}
+                <script>
+                                                 
+                 copyLink = (element) => {
+                 document.getElementById(element).select();
+                 document.execCommand("copy");
+                                                     }
+                 </script> 
+                 {%endblock%}
+
+                </div>
+            </div>
+
+    </div>
+    
+  </div>
+
+ 
+
+  {% endfor %}
+
+</div>
+{%endif%}
+{% endblock %}
+
+
+
