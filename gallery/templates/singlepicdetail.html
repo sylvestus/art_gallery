@@ -1,0 +1,34 @@
+
+{%extends 'base.html'%}
+
+{% block content %}
+{{block.super}}
+
+  <!-- Looping through news   -->
+  {% if single_pic %}
+
+  <div class="row" style="width: 100%;">
+   
+    <!-- displaying News articles -->
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        
+      <h2 class="text-center"> {{ single_pic.image_name }} </h2>
+      <h5 class="tect-center"> {{single_pic.description}}</h5>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <img style="width: 80%; height: 250px;" src="{{single_pic.image.url}}" alt="" class="img-responsive">
+      </div>
+
+  </div>
+
+  {% else%}
+  <div class="row">
+    <h2 class="text-center">There No category Items</h2>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+
+
